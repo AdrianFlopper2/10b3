@@ -1,6 +1,6 @@
 // Supabase configuration
 const SUPABASE_URL = 'https://muwvctyohbujxdficifd.supabase.co';
-const SUPABASE_ANON_KEY = 'YOUR_SUPABASE_ANON_KEY'; // Replace with your actual Supabase anon key
+const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im11d3ZjdHlvaGJ1anhkZmljaWZkIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MjYyMjE3MzksImV4cCI6MjA0MTc5NzczOX0.i-DWQbwI2C5kdXyzJ_kKyPoEc63-En6kICAvKwuzOXg'; // Replace with your actual Supabase anon key
 
 // Initialize Supabase client
 const supabase = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
@@ -97,22 +97,4 @@ function makeDraggable(element) {
 }
 
 // Update note position in Supabase
-async function updateNotePositionInSupabase(element) {
-    const id = element.dataset.id;
-    const left = element.style.left;
-    const top = element.style.top;
-
-    try {
-        const { error } = await supabase
-            .from('notes')
-            .update({ left, top })
-            .eq('id', id);
-
-        if (error) throw error;
-    } catch (error) {
-        console.error('Error updating note position: ', error.message);
-    }
-}
-
-// Initial call to load notes
-loadNotes();
+async function updateN
