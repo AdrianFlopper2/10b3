@@ -1,6 +1,6 @@
 // Supabase configuration
 const SUPABASE_URL = 'https://muwvctyohbujxdficifd.supabase.co';
-const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im11d3ZjdHlvaGJ1anhkZmljaWZkIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MjYyMjE3MzksImV4cCI6MjA0MTc5NzczOX0.i-DWQbwI2C5kdXyzJ_kKyPoEc63-En6kICAvKwuzOXg';
+const SUPABASE_ANON_KEY = 'YOUR_SUPABASE_ANON_KEY'; // Make sure to replace with actual key
 
 const supabase = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
@@ -112,3 +112,6 @@ async function updateNotePositionInSupabase(element) {
         console.error('Error updating note position: ', error.message);
     }
 }
+
+// Initial call to load notes
+loadNotes();
