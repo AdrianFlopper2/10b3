@@ -1,7 +1,8 @@
 // Supabase configuration
 const SUPABASE_URL = 'https://muwvctyohbujxdficifd.supabase.co';
-const SUPABASE_ANON_KEY = 'YOUR_SUPABASE_ANON_KEY'; // Make sure to replace with actual key
+const SUPABASE_ANON_KEY = 'YOUR_SUPABASE_ANON_KEY'; // Replace with your actual Supabase anon key
 
+// Initialize Supabase client
 const supabase = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
 // Add a new note
