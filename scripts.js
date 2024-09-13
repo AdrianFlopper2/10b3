@@ -1,17 +1,8 @@
-// Firebase configuration (replace with your own configuration)
-const firebaseConfig = {
-   apiKey: "AIzaSyBc6pUBOCM_pJCn9cdCwc5QMWYl7RWt7Rs",
-  authDomain: "b3-13588.firebaseapp.com",
-  projectId: "b3-13588",
-  storageBucket: "b3-13588.appspot.com",
-  messagingSenderId: "562739727033",
-  appId: "1:562739727033:web:c01dff8d26f6d1e9356968",
-  measurementId: "G-94FYQ0CF0F"
-};
+// Supabase configuration
+const SUPABASE_URL = 'db.muwvctyohbujxdficifd.supabase.co';
+const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im11d3ZjdHlvaGJ1anhkZmljaWZkIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MjYyMjE3MzksImV4cCI6MjA0MTc5NzczOX0.i-DWQbwI2C5kdXyzJ_kKyPoEc63-En6kICAvKwuzOXg';
 
-// Initialize Firebase
-firebase.initializeApp(firebaseConfig);
-const db = firebase.firestore();
+const supabase = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
 // Add a new note
 async function addNote() {
@@ -24,34 +15,37 @@ async function addNote() {
     }
 
     try {
-        await db.collection('notes').add({
-            title: title,
-            content: content,
-            left: '0px',
-            top: '0px'
-        });
+        const { data, error } = await supabase
+            .from('notes')
+            .insert([{ title, content, left: '0px', top: '0px' }]);
+
+        if (error) throw error;
         loadNotes();
     } catch (error) {
-        console.error('Error adding note: ', error);
+        console.error('Error adding note: ', error.message);
     }
 }
 
-// Load notes from Firestore
+// Load notes from Supabase
 async function loadNotes() {
     const notesContainer = document.getElementById('noteContainer');
     notesContainer.innerHTML = ''; // Clear existing notes
 
     try {
-        const snapshot = await db.collection('notes').get();
-        snapshot.forEach(doc => {
-            const note = doc.data();
+        const { data: notes, error } = await supabase
+            .from('notes')
+            .select('*');
+
+        if (error) throw error;
+        notes.forEach(note => {
             const noteElement = createNoteElement(note.title, note.content);
             noteElement.style.left = note.left;
             noteElement.style.top = note.top;
+            noteElement.dataset.id = note.id; // Store note ID in the element
             notesContainer.appendChild(noteElement);
         });
     } catch (error) {
-        console.error('Error loading notes: ', error);
+        console.error('Error loading notes: ', error.message);
     }
 }
 
@@ -92,7 +86,7 @@ function makeDraggable(element) {
         if (isDragging) {
             element.style.left = `${e.clientX - offsetX}px`;
             element.style.top = `${e.clientY - offsetY}px`;
-            updateNotePositionInFirestore(element);
+            updateNotePositionInSupabase(element);
         }
     });
     
@@ -101,7 +95,20 @@ function makeDraggable(element) {
     });
 }
 
-// Update note position in Firestore
-async function updateNotePositionInFirestore(element) {
-    // Logic to update note position in Firestore
+// Update note position in Supabase
+async function updateNotePositionInSupabase(element) {
+    const id = element.dataset.id;
+    const left = element.style.left;
+    const top = element.style.top;
+
+    try {
+        const { error } = await supabase
+            .from('notes')
+            .update({ left, top })
+            .eq('id', id);
+
+        if (error) throw error;
+    } catch (error) {
+        console.error('Error updating note position: ', error.message);
+    }
 }
