@@ -5,15 +5,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Sticky Notes</title>
     <link rel="stylesheet" href="styles.css">
-    <!-- Firebase App (the core Firebase SDK) -->
-    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app.js"></script>
-    <!-- Firebase Firestore -->
-    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-firestore.js"></script>
+    <!-- Supabase JS SDK -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.0.0/dist/supabase.js"></script>
 </head>
 <body>
-    <div id="noteContainer">
-        <!-- Notes will be dynamically added here -->
-    </div>
+    <div id="noteContainer"></div>
     <div id="noteForm">
         <input type="text" id="noteTitle" placeholder="Enter note title">
         <textarea id="noteContent" placeholder="Enter note content"></textarea>
